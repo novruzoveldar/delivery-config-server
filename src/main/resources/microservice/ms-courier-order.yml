@@ -1,0 +1,51 @@
+server:
+  port: 8082
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    platform: postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/delivery?currentSchema=delivery
+    username: postgres
+    password: 1234
+    hikari:
+      pool-name: HikariPool
+      auto-commit: true
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      idle-timeout: 60000
+      max-lifetime: 120000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      schema: delivery
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    properties:
+      hibernate:
+        generate_statistics: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    database: postgresql
+
+redis:
+  url: redis://localhost:6379
+
+application:
+  security:
+    authentication:
+      jwt:
+        token-validity-in-seconds: 1000
+        secret: x7My=2kkJFlNbvjTxrXltol14ZyFyo9Mh-5snfuGDbSz0MU-9LNqkFjNENoF6EdHoa1QQ=Q2B56v9AFDdNr0clp-PuzP14rxfoonPxo7sk2p21fZoU7w8uCpGgxXRnYDHOJCt0F3RgYpYPU--c33shEliWpIaxwqXsrqn0XHhNqFavRuw0BkPBD9c8EXa4o8uPmUV45-OXZDuDOc9cjmnlr93oI7aQ4cPmc2b-19AijSLs6Gse5B5XBGxBLVFXsLIPgaATQiT0yXZSBCUwMcTajYtc8X-jdQXhAXRjXsGZWfZdeOEO87obDhZyUC4Z5Rg7R8AhiFmKhIudice7=cHPS2fZNE6rWOOtQzmTDIA6JCHmzThH9GIn0IUTPCEL9V8wRHlzwNJhrYunsI
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8500/eureka/

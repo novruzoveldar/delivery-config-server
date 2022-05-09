@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  redis-server:
+    image: redis:latest
+    ports:
+      - 6379:6379
+  keycloak:
+    image: wizzn/keycloak:14
+    volumes:
+      - ./imports:/opt/jboss/keycloak/imports
+    command:
+      - "-b 0.0.0.0 -Dkeycloak.profile.feature.upload_scripts=enabled"
+      - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: h2
+    ports:
+      - 8080:8080
+  postgres:
+    ports:
+      - '127.0.0.1:5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=1234
+    container_name: pg
+    image: postgres
